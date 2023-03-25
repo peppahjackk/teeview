@@ -4,6 +4,8 @@ import {
     RenderOptions,
     RenderResult,
 } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { defaultQueryFn } from "../utils/default-query-fn";
 
 /**
  * Custom renderer example with @testing-library/react
@@ -14,7 +16,15 @@ import {
  */
 
 export const AllTheProviders = ({ children }) => {
-    return <>{children}</>;
+    const queryClient = new QueryClient({
+        defaultOptions: { queries: { queryFn: defaultQueryFn } },
+    });
+
+    return (
+        <QueryClientProvider client={queryClient}>
+            {children}
+        </QueryClientProvider>
+    );
 };
 
 const render = (ui: ReactElement, options?: Omit<RenderOptions, "queries">) =>
