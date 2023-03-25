@@ -1,11 +1,13 @@
 import React from "react";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
-import { Button } from "@components";
+interface Teetimes {
+    data: string[];
+}
 
 export const Main: React.FC = () => {
-    const handleGenerate = () => {
-        console.log("Button push");
-    };
+    const { data, error, isLoading }: UseQueryResult<Teetimes | undefined> =
+        useQuery(["/api/teetimes"]);
 
     return (
         <div
@@ -20,7 +22,15 @@ export const Main: React.FC = () => {
             }}
         >
             <h3 className="text-xl pb-4">View tee times for William Devine</h3>
-            <Button onClick={handleGenerate}>Generate</Button>
+            {isLoading ? <p>Loading...</p> : null}
+            {error ? <p>{error}</p> : null}
+            {data == null || !(data instanceof Array) ? null : (
+                <ul>
+                    {data.map((item) => (
+                        <li key={item}>{item}</li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
 };
