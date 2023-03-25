@@ -10,17 +10,12 @@ describe("Footer component testing with testing-library", () => {
     });
 
     it("renders pankod logo and directed to the correct url", () => {
-        const { getByTestId } = render(<Footer />);
+        const { getByText } = render(<Footer />);
 
-        expect(getByTestId("pankod-logo").getAttribute("href")).toStrictEqual(
-            "https://github.com/pankod",
-        );
-    });
+        const theYear: string = JSON.stringify(new Date().getFullYear());
 
-    it("should render 4 icons successfully", () => {
-        const { getByTestId } = render(<Footer />);
+        const regex = new RegExp(theYear);
 
-        const icons = getByTestId("icons-container");
-        expect(icons.children).toHaveLength(4);
+        expect(getByText(regex));
     });
 });

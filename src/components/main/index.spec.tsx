@@ -12,6 +12,6 @@ describe("Main component testing with testing-library", () => {
     it("renders texts successfuly", () => {
         const { getByText } = render(<Main />);
 
-        getByText("Hello");
+        getByText(/View tee times for/);
     });
 });
