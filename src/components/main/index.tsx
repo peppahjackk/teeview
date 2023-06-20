@@ -1,8 +1,12 @@
 import React from "react";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
+interface TeeTime {
+    time: string;
+    players: string;
+}
 interface Teetimes {
-    data: string[];
+    data: TeeTime[];
 }
 
 export const Main: React.FC = () => {
@@ -23,11 +27,13 @@ export const Main: React.FC = () => {
         >
             <h3 className="text-xl pb-4">View tee times for William Devine</h3>
             {isLoading ? <p>Loading...</p> : null}
-            {error ? <p>{error}</p> : null}
+            {error ? <p>{JSON.stringify(error)}</p> : null}
             {data == null || !(data instanceof Array) ? null : (
                 <ul>
                     {data.map((item) => (
-                        <li key={item}>{item}</li>
+                        <li key={`WD-date-${item.time}`}>
+                            {item.time} : {item.players}
+                        </li>
                     ))}
                 </ul>
             )}
